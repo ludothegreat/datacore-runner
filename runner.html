@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
+<title>Datacore Runner - runner demo</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #000; overflow: hidden; }
+  canvas { display: block; }
+  #hud, #help, #fatal {
+    position: fixed; font-family: "JetBrains Mono", "DejaVu Sans Mono", monospace;
+    font-size: 1.05rem; line-height: 1.5; letter-spacing: 0.06em;
+    text-transform: uppercase; pointer-events: none;
+  }
+  #hud { top: 18px; left: 22px; padding: 8px 14px; color: #8ec07c; background: rgba(29, 32, 33, 0.92); border: 1px solid #427b58; }
+  #hud b { color: #fe8019; font-weight: normal; }
+  #help { bottom: 0; left: 0; right: 0; padding: 8px 0; text-align: center; color: #8ec07c; background: rgba(29, 32, 33, 0.92); }
+  #help b { color: #fe8019; font-weight: normal; }
+  #fatal {
+    display: none; inset: 0; padding: 40px; background: #1d2021; color: #fb4934;
+    text-transform: none; white-space: pre-wrap; pointer-events: auto;
+  }
+</style>
+<script type="importmap">
+{
+  "imports": {
+    "three": "./node_modules/three/build/three.module.js",
+    "three/addons/": "./node_modules/three/examples/jsm/"
+  }
+}
+</script>
+</head>
+<body>
+<div id="hud"></div>
+<div id="help"><b>A/D</b> or <b>&larr;/&rarr;</b> change lane &nbsp; <b>W/Space/&uarr;</b> jump &nbsp; <b>S/&darr;</b> duck (fast-fall in air) &nbsp; <b>P</b> pause &nbsp; <b>R</b> reset</div>
+<div id="fatal"></div>
+<script type="module" src="./runner.js"></script>
+</body>
+</html>

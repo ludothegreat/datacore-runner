@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Datacore Runner settings</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #1d2021; color: #ebdbb2; }
+  body { font-family: "JetBrains Mono", Consolas, "DejaVu Sans Mono", monospace; font-size: 1.05rem; line-height: 1.5; }
+  main { padding: 22px 26px; }
+  h1 { margin: 0 0 16px; font-size: 1.4rem; font-weight: normal; color: #8ec07c; letter-spacing: 0.06em; text-transform: uppercase; }
+  fieldset { margin: 0 0 16px; padding: 10px 14px 12px; border: 1px solid #427b58; }
+  legend { padding: 0 6px; color: #8ec07c; }
+  label { display: block; padding: 4px 0; cursor: pointer; }
+  input { accent-color: #fb4934; width: 1.1rem; height: 1.1rem; vertical-align: -0.15rem; margin-right: 8px; }
+  .buttons { display: flex; gap: 12px; justify-content: flex-end; }
+  button {
+    font: inherit; padding: 6px 22px; cursor: pointer; border-radius: 0;
+    background: #282828; color: #ebdbb2; border: 1px solid #8ec07c;
+  }
+  button:hover, button:focus-visible { background: #32403a; outline: none; }
+  #error { color: #fb4934; min-height: 1.5em; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Datacore Runner</h1>
+  <fieldset>
+    <legend>Mode</legend>
+    <label><input type="radio" name="mode" value="plain">Clean system (all green)</label>
+    <label><input type="radio" name="mode" value="corrupt">Under attack (turns red as it passes)</label>
+  </fieldset>
+  <fieldset>
+    <legend>Options</legend>
+    <label><input type="checkbox" id="stats">Show PC stats (CPU, memory, GPU, fps)</label>
+    <label><input type="checkbox" id="primaryOnly">Main display only (others go black)</label>
+  </fieldset>
+  <div id="error"></div>
+  <div class="buttons">
+    <button id="cancel" type="button">Cancel</button>
+    <button id="save" type="button">Save</button>
+  </div>
+</main>
+<script>
+  const api = window.datacore;
+  const errorEl = document.getElementById('error');
+  const fail = (err) => { errorEl.textContent = `Could not save: ${err instanceof Error ? err.message : err}`; };
+  api.getConfig().then((cfg) => {
+    document.querySelector(`input[name=mode][value=${cfg.corrupt ? 'corrupt' : 'plain'}]`).checked = true;
+    document.getElementById('stats').checked = cfg.stats;
+    document.getElementById('primaryOnly').checked = cfg.primaryOnly;
+  }).catch(fail);
+  document.getElementById('cancel').addEventListener('click', () => api.close());
+  document.getElementById('save').addEventListener('click', () => {
+    api.saveConfig({
+      corrupt: document.querySelector('input[name=mode]:checked').value === 'corrupt',
+      stats: document.getElementById('stats').checked,
+      primaryOnly: document.getElementById('primaryOnly').checked,
+    }).then(() => api.close()).catch(fail);
+  });
+  window.addEventListener('keydown', (e) => { if (e.key === 'Escape') api.close(); });
+</script>
+</body>
+</html>

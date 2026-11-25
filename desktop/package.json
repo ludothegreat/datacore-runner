@@ -1,0 +1,8 @@
+{
+  "name": "datacore-runner",
+  "productName": "Datacore Runner",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Datacore Runner screensaver",
+  "main": "main.cjs"
+}

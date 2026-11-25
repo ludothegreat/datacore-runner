@@ -1,0 +1,27 @@
+{
+  "name": "datacore-runner",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Concept demo: an exploit payload racing through a holographic mainframe",
+  "scripts": {
+    "start": "python3 serve.py",
+    "lint": "eslint main.js runner.js desktop",
+    "typecheck": "tsc -p jsconfig.json",
+    "check": "npm run lint && npm run typecheck",
+    "test": "node --test desktop/args.test.cjs",
+    "build:windows": "bash scripts/build-windows.sh"
+  },
+  "dependencies": {
+    "three": "^0.187.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/three": "^0.187.0",
+    "electron": "^45.5.0",
+    "esbuild": "^0.28.2",
+    "eslint": "^10.15.0",
+    "globals": "^17.14.0",
+    "typescript": "^7.0.2"
+  }
+}

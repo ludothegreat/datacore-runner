@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
+<title>Datacore Runner - grid navigation</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #000; overflow: hidden; }
+  canvas { display: block; }
+  #hud, #help, #fatal {
+    position: fixed; font-family: "JetBrains Mono", "DejaVu Sans Mono", monospace;
+    font-size: 1.05rem; line-height: 1.5; letter-spacing: 0.06em;
+    text-transform: uppercase; pointer-events: none;
+  }
+  #hud { top: 18px; left: 22px; padding: 8px 14px; color: #8ec07c; background: rgba(29, 32, 33, 0.92); border: 1px solid #427b58; }
+  #hud b { color: #fb4934; font-weight: normal; }
+  #help { bottom: 0; left: 0; right: 0; padding: 8px 0; text-align: center; color: #8ec07c; background: rgba(29, 32, 33, 0.92); }
+  #help b { color: #fb4934; font-weight: normal; }
+  #map { position: fixed; top: 18px; right: 22px; border: 1px solid #427b58; }
+  #stats {
+    display: none; position: fixed; top: 252px; right: 22px; padding: 8px 14px; pointer-events: none;
+    font-family: "JetBrains Mono", "DejaVu Sans Mono", monospace; font-size: 1.05rem; line-height: 1.5;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    color: #8ec07c; background: rgba(29, 32, 33, 0.92); border: 1px solid #427b58;
+  }
+  #stats b { color: #fb4934; font-weight: normal; }
+  body.saver { cursor: none; }
+  body.saver #hud, body.saver #map, body.saver #help, body.saver #banner { display: none !important; }
+  body.saver #stats { top: 18px; }
+  #banner {
+    display: none; position: fixed; left: 50%; top: 42%; transform: translate(-50%, -50%);
+    padding: 26px 44px; text-align: center; background: rgba(29, 32, 33, 0.94);
+    font-family: "JetBrains Mono", "DejaVu Sans Mono", monospace; text-transform: uppercase; letter-spacing: 0.08em;
+    border: 2px solid #8ec07c; color: #ebdbb2;
+  }
+  #banner h1 { margin: 0 0 10px; font-size: 2.4rem; font-weight: normal; }
+  #banner p { margin: 6px 0; font-size: 1.05rem; }
+  #banner.red { border-color: #fb4934; }
+  #banner.red h1 { color: #fb4934; }
+  #banner.blue { border-color: #3d8bff; }
+  #banner.blue h1 { color: #3d8bff; }
+  #fatal {
+    display: none; inset: 0; padding: 40px; background: #1d2021; color: #fb4934;
+    text-transform: none; white-space: pre-wrap; pointer-events: auto;
+  }
+</style>
+<script type="importmap">
+{
+  "imports": {
+    "three": "./node_modules/three/build/three.module.js",
+    "three/addons/": "./node_modules/three/examples/jsm/"
+  }
+}
+</script>
+</head>
+<body>
+<div id="hud"></div>
+<canvas id="map" width="220" height="220"></canvas>
+<div id="stats"></div>
+<div id="help"><b>A/D</b> or <b>&larr;/&rarr;</b> queue a turn &nbsp; <b>W/&uarr;</b> go straight &nbsp; <b>S/&darr;</b> reverse &nbsp; <b>[ ]</b> speed &nbsp; <b>P</b> pause &nbsp; <b>R</b> new level &nbsp; <b>F</b> stats</div>
+<div id="banner"><h1></h1><p></p><p>press R for a new level</p></div>
+<div id="fatal"></div>
+<script type="module" src="./main.js"></script>
+</body>
+</html>
