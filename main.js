@@ -1,7 +1,7 @@
 // @ts-check
-// Datacore Runner - grid navigation prototype.
+// Datacore Runner - the game and the screensaver.
 // The dart flies forward on its own through a street grid; the player queues turns.
-// No obstacles, pickups or opponents yet: this file exists to get turning right first.
+// Single file on purpose while the design is still moving.
 // The original straight-line runner demo is frozen in runner.js / runner.html.
 
 import * as THREE from 'three';
