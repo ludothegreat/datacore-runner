@@ -18,6 +18,7 @@ import threading
 import time
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
+from urllib.parse import unquote, urlsplit
 
 ROOT = Path(__file__).resolve().parent
 HOST = "127.0.0.1"
@@ -132,7 +133,32 @@ class Sampler:
 class Handler(SimpleHTTPRequestHandler):
     sampler: Sampler
 
+    def _refuse(self) -> bool:
+        """True (and an error already sent) if this request must not be served."""
+        # Binding to loopback is not enough on its own: a web page on another site can point its
+        # own hostname at 127.0.0.1 (DNS rebinding) and then read this server from the browser.
+        # Such a request carries that site's hostname in Host, so only our own names are served.
+        port = self.connection.getsockname()[1]
+        host = self.headers.get("Host", "")
+        if host not in (f"127.0.0.1:{port}", f"localhost:{port}"):
+            log.warning("refused request with Host %r from %s", host, self.address_string())
+            self.send_error(403, "Host not allowed")
+            return True
+        # .git and other dotfiles sit in the project folder but are not part of the game.
+        segments = unquote(urlsplit(self.path).path).split("/")
+        if any(segment.startswith(".") for segment in segments):
+            log.warning("refused hidden path %s", self.path)
+            self.send_error(404, "Not found")
+            return True
+        return False
+
+    def do_HEAD(self) -> None:
+        if not self._refuse():
+            super().do_HEAD()
+
     def do_GET(self) -> None:
+        if self._refuse():
+            return
         if self.path.split("?", 1)[0] != "/api/stats":
             super().do_GET()
             return
