@@ -94,3 +94,8 @@ npm test        # screensaver argument parsing
 - Without a working graphics card (virtual machine, remote desktop) it is very slow.
 - A solid red screen for a second or two was seen twice on one Intel laptop during testing
   and has not been reproduced since. Reports are welcome.
+
+## License
+
+MIT, see `LICENSE`. three.js and Electron are also MIT licensed; the Windows package
+includes their license files.
